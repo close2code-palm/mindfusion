@@ -1,5 +1,4 @@
 from contextlib import suppress
-from pprint import pprint
 
 from aiogram import types, Router, F
 from aiogram.filters import CommandStart, Command
@@ -15,7 +14,7 @@ router = Router()
 
 
 @router.message(CommandStart())
-async def msg_echo(message: types.Message, ampl: Amplitude, db: Repository, webapp: str):
+async def bot_start(message: types.Message, ampl: Amplitude, db: Repository, webapp: str):
     ampl.track(BaseEvent(
         event_type='started',
         user_id=f'{message.from_user.id}',
@@ -54,6 +53,7 @@ async def handle_request_by_char(message: types.Message, ampl: Amplitude, db: Re
     ))
     prompt = await db.get_prompt(message.from_user.id)
     await state.set_state(Messaging.message_waiting)
+    # state juggling to make users wait
     try:
         resp = await fetch_completion(prompt, message.text)
         ampl.track(BaseEvent(
@@ -63,6 +63,7 @@ async def handle_request_by_char(message: types.Message, ampl: Amplitude, db: Re
     finally:
         await state.set_state(Messaging.message_inc)
     with suppress(KeyError, NameError):
+        # In case of unsuccessful request
         gpt_reply = resp['choices'][0]['message']['content']
         await db.save_reply(gpt_reply, conv_id)
         await message.answer(gpt_reply)
