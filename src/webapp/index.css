@@ -1,0 +1,57 @@
+@font-face {
+    font-family: SFProLight;
+    src: url('/fonts/FontsFree-Net-SFProDisplay-Light.ttf');
+}
+
+@font-face {
+    font-family: SFProBold;
+    src: url('/fonts/FontsFree-Net-SFProDisplay-Bold.ttf');
+}
+
+.container {
+    margin: auto;
+    width: 600px;
+    height: 800px;
+    background-color: #f5f5f5;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    font-size: 40px;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    height: 392px;
+    width: 392px;
+    margin: auto;
+}
+
+
+.name {
+    font-family: "SFProBold";
+    color: #27a7e7;
+    text-align: center;
+}
+
+.type {
+    font-family: 'SFProLight';
+    color: #27a7e7;
+    text-align: center;
+}
+
+.char-button {
+    height: 100px;
+    width: 400px;
+    margin: auto;
+}
+
+.btn {
+    display: flex;
+}

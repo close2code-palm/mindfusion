@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Character.io</title>
+        <link rel="stylesheet" href="index.css" />
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <button type="button" onclick="window.Telegram.WebApp"></button>
+            <div class="card">
+                <div class="image">
+                    <img src="/img/mario.png" alt="Марио" />
+                </div>
+                <div class="name">Марио</div>
+                <div class="type">Персонаж</div>
+                <div class="btn">
+                    <button
+                        class="char-button"
+                        type="button"
+                        id="Mario"
+                        onclick="send_char(this)"
+                    >
+                        Выбрать
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="image">
+                    <img src="/img/albert.png" alt="Эйнштейн" />
+                </div>
+                <div class="name">Альберт Эйнштейн</div>
+                <div class="type">Физик-теоретик</div>
+                <div class="btn">
+                    <button
+                        class="char-button"
+                        type="button"
+                        id="Albert"
+                        onclick="send_char(this)"
+                    >
+                        Выбрать
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script>
+            function send_char(e) {
+                window.Telegram.WebApp.sendData(e.id);
+            }
+        </script>
+    </body>
+</html>
