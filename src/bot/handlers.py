@@ -4,6 +4,7 @@ from aiogram import types, Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from amplitude import Amplitude, BaseEvent
+from asyncpg import NotNullViolationError
 
 from src.bot.gpt_api import fetch_completion
 from src.bot.keyboards import webapp_kbd
@@ -46,7 +47,10 @@ async def handle_data(message: types.Message, db: Repository, ampl: Amplitude, s
 
 @router.message(Messaging.message_inc)
 async def handle_request_by_char(message: types.Message, ampl: Amplitude, db: Repository, state: FSMContext):
-    conv_id = await db.write_message(message.from_user.id, message.text)
+    try:
+        conv_id = await db.write_message(message.from_user.id, message.text)
+    except NotNullViolationError:
+        return await message.answer('We are not familiar yet. Try send me /start command!')
     ampl.track(BaseEvent(
         event_type='user_req',
         user_id=f'{message.from_user.id}'
