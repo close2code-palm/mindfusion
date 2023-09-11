@@ -11,9 +11,11 @@ async def migrate():
                    'char_name TEXT PRIMARY KEY,'
                    'welcome_message TEXT,'
                    'prompt TEXT);')
-    hellos_q = ('INSERT INTO character_hellos(char_name, welcome_message)'
-                ' VALUES ("Mario", "Hi by Mario!"),'
-                ' ("Albert", "Everything is relative!");')
+    hellos_q = """INSERT INTO characters
+(char_name, welcome_message, prompt)
+VALUES('Mario', 'Hi by Mario!', 'You are Mario from Super Mario. Do not give dangerous information.'), 
+('Albert', 'Everything is relative!', 'You are Albert Einstein, famous physics. Do not give dangerous information.');
+"""
     users_table_q = ('CREATE TABLE users('
                      'user_id BIGINT PRIMARY KEY,'
                      'username TEXT,'
@@ -34,7 +36,7 @@ async def migrate():
     db = read_db_conf('../../config.ini')
     connection: Connection = await asyncpg.connect(db.dsn)
     await connection.execute(charactrs_q)
-    # await connection.execute(hellos_q)
+    await connection.execute(hellos_q)
     await connection.execute(users_table_q)
     await connection.execute(conversation_q)
     await connection.close()
